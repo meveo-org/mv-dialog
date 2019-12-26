@@ -16,8 +16,8 @@ export class MvDialog extends LitElement {
   static get styles() {
     return css`
       :host {
-				font-family: var(--font-family, Arial);
-				font-size: var(--font-size-m, 10pt);				
+        font-family: var(--font-family, Arial);
+        font-size: var(--font-size-m, 10pt);				
       }
       
       .mv-container-dialog {
@@ -39,7 +39,7 @@ export class MvDialog extends LitElement {
       
       .dialog {
         background: #FFFFFF;
-        max-width: var(--mv-dialog-max-width, 756px);
+        width: var(--mv-dialog-width, 756px);
         max-height: var(--mv-dialog-max-height, 528px);
         position: fixed;
         box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.5);
@@ -75,7 +75,7 @@ export class MvDialog extends LitElement {
       }
       
       .header {
-         max-width: var(--mv-dialog-max-width, 756px);
+         width: var(--mv-dialog-width, 756px);
          height: 70px;
          box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2); 
          background: #FFFFFF;
@@ -95,7 +95,7 @@ export class MvDialog extends LitElement {
       }
       
       .footer {
-        max-width: var(--mv-dialog-max-width, 756px);
+        width: var(--mv-dialog-width, 756px);
         height: 80px;
         box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
         border-radius: 0 0 5px 5px;
@@ -119,10 +119,13 @@ export class MvDialog extends LitElement {
       
       .body {
         overflow-y: auto;
-        max-width: var(--mv-dialog-max-width, 756px);
-        height: var(--mv-dialog-body-width, 378px);
+        width: var(--mv-dialog-width, 756px);
+        height: var(--mv-dialog-body-height, 378px);
         position: relative;
         padding: 0 30px 0 30px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
       } 
    `;
   }

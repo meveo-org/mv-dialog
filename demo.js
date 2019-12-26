@@ -48,8 +48,8 @@ export class MvDialogDemo extends LitElement {
       }
       
       .custom-size {
-        --mv-dialog-max-width: 500px;
-        --mv-dialog-body-width: 250px; // dialog height = 400px (250px + 150px height of header and footer)
+        --mv-dialog-width: 500px;
+        --mv-dialog-body-height: 250px; // dialog height = 400px (250px + 150px height of header and footer)
       }
    `;
   }

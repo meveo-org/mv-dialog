@@ -9,7 +9,9 @@ export class MvDialog extends LitElement {
       leftButton: { type: String },
       rightButton: { type: String },
       heading: { type: String },
-      hasCloseIcon: { type: Boolean }
+      showCloseIcon: { type: Boolean },
+      showLeftButton: { type: Boolean },
+      showRightButton: { type: Boolean }
     };
   }
 
@@ -17,7 +19,8 @@ export class MvDialog extends LitElement {
     return css`
       :host {
         font-family: var(--font-family, Arial);
-        font-size: var(--font-size-m, 10pt);				
+        font-size: var(--font-size-m, 10pt);
+        --dialog-body-height: calc(var(--mv-dialog-max-height, 528px) - 150px);
       }
       
       .mv-container-dialog {
@@ -81,6 +84,9 @@ export class MvDialog extends LitElement {
          background: #FFFFFF;
          border-radius: 5px 5px 0 0;
          position: relative;
+         box-sizing: border-box;
+         -moz-box-sizing: border-box;
+         -webkit-box-sizing: border-box;
       }
       
       .title {
@@ -101,42 +107,41 @@ export class MvDialog extends LitElement {
         border-radius: 0 0 5px 5px;
         border-top: 1px solid rgba(0, 0, 0, 0.12);
         position: relative;
-      }
-      
-      .left-button {
-        position: absolute;
-        left: 30px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      
-      .right-button {
-        position: absolute;
-        right: 30px;
-        top: 50%;
-        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 30px 0 30px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
       }
       
       .body {
         overflow-y: auto;
         width: var(--mv-dialog-width, 756px);
-        height: var(--mv-dialog-body-height, 378px);
+        height: var(--dialog-body-height);
         position: relative;
         padding: 0 30px 0 30px;
         box-sizing: border-box;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
-      } 
+      }
+      
+      .footer mv-button:first-child:last-child {
+        margin: 0 auto;
+      }
    `;
   }
 
   constructor() {
     super();
     this.open = false;
-    this.leftButton = null;
-    this.rightButton = null;
+    this.leftButton = "Cancel";
+    this.rightButton = "OK";
     this.heading = "Dialog";
-    this.hasCloseIcon = true;
+    this.showCloseIcon = true;
+    this.showLeftButton = true;
+    this.showRightButton = true;
   }
 
   render() {
@@ -146,10 +151,12 @@ export class MvDialog extends LitElement {
         <div class="overlay-dialog" @click="${this.handleClose}"></div>
         <div class="dialog" role="dialog" aria-labelledby="title" aria-describedby="content">
           <div class="header">
-              ${this.hasCloseIcon
-                ? html`<mv-fa icon="window-close" @click="${this.handleClose}"></mv-fa>`
-                : html``}  
-              <span class="title">${this.heading}</span>
+              <slot name="header">
+                ${this.showCloseIcon
+                  ? html`<mv-fa icon="times" @click="${this.handleClose}"></mv-fa>`
+                  : html``}  
+                <span class="title">${this.heading}</span>
+              </slot>
           </div>
           
           <div class="body">
@@ -157,25 +164,28 @@ export class MvDialog extends LitElement {
           </div>
           
           <div class="footer">
-             ${this.leftButton
-              ? html`<mv-button class="left-button" button-style="info" @button-clicked="${this.handleClose}">
-                        ${this.leftButton}
-                     </mv-button>`
-              : html``}  
-             
-             ${this.rightButton
-              ? html`<mv-button class="right-button" @button-clicked="${this.handleClose}">${this.rightButton}</mv-button>`
-              : html``}
-             <slot name="left-button"></slot>
-             <slot name="right-button"></slot>
+             <slot name="footer">
+               ${this.showLeftButton
+                ? html`<mv-button class="left-button" @button-clicked="${this.handleClose}">${this.leftButton}</mv-button>`
+                : html``}  
+               ${this.showRightButton
+                ? html`<mv-button class="right-button" @button-clicked="${this.handleOK}" button-style="info">${this.rightButton}</mv-button>`
+                : html``}
+             </slot>
           </div>
         </div>
       </div>
    `;
   }
 
-  handleClose() {
-    this.dispatchEvent(new CustomEvent('close-dialog'))
+  handleClose(event) {
+    event && event.stopImmediatePropagation();
+    this.dispatchEvent(new CustomEvent('close-dialog'));
+  }
+
+  handleOK(event) {
+    event && event.stopImmediatePropagation();
+    this.dispatchEvent(new CustomEvent('ok-dialog'));
   }
 }
 

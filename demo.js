@@ -33,6 +33,27 @@ export class MvDialogDemo extends LitElement {
         text-align: initial;
       }
       
+      mv-fa {
+        font-size: 20px;
+        color: #48C5B9;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+      
+      .title {
+        font-size: 20px;
+        color: #80828C;
+        font-weight: 500;
+        position: absolute;
+        left: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: default;
+      }
+ 
       .left-button {
         position: absolute;
         left: 30px;
@@ -49,7 +70,7 @@ export class MvDialogDemo extends LitElement {
       
       .custom-size {
         --mv-dialog-width: 500px;
-        --mv-dialog-body-height: 250px; // dialog height = 400px (250px + 150px height of header and footer)
+        --mv-dialog-max-height: 300px;
       }
    `;
   }
@@ -61,7 +82,7 @@ export class MvDialogDemo extends LitElement {
     this.openA = false;
     this.openB = false;
     this.openC = false;
-    this.hasCloseIcon = false;
+    this.showCloseIcon = false;
   }
 
   render() {
@@ -73,8 +94,9 @@ export class MvDialogDemo extends LitElement {
         <mv-dialog
            ?open="${this.openA}"
            @close-dialog="${this.closeDialogA}"
-           .leftButton="${this.leftButton}"
-           .rightButton="${this.rightButton}"
+           @ok-dialog="${this.okDialogA}"
+           leftButton="${this.leftButton}"
+           rightButton="${this.rightButton}"
            heading="Dialog"
         >
            <p>
@@ -87,44 +109,44 @@ export class MvDialogDemo extends LitElement {
         <mv-dialog
            ?open="${this.openB}"
            @close-dialog="${this.closeDialogB}"
+           @ok-dialog="${this.okDialogB}"
            heading="Dialog custom button"
         >
-           <p>
-             A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
-             Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
-             Dialogs are purposefully interruptive, so they should be used sparingly.
-           </p>
-           <mv-button class="left-button" slot="left-button" @button-clicked="${this.closeDialogB}">Cancel</mv-button>
-           <mv-button class="right-button" slot="right-button" @button-clicked="${this.closeDialogB}" button-style="info">Save</mv-button>
+          <p>
+            A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
+            Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
+            Dialogs are purposefully interruptive, so they should be used sparingly.
+          </p>
+          <span slot="header">
+            <mv-fa icon="times" @click="${this.closeDialogB}"></mv-fa>
+            <span class="title">Dialog custom button</span>
+          </span>
+          <span slot="footer">
+            <mv-button class="left-button" @button-clicked="${this.closeDialogB}">Cancel</mv-button>
+            <mv-button class="right-button" @button-clicked="${this.okDialogB}" button-style="info">Save</mv-button>
+          </span>
         </mv-dialog>
         
         <mv-dialog
-           ?open="${this.openC}"
-           @close-dialog="${this.closeDialogC}"
-           heading="Dialog custom size"
-           class="custom-size"
-           .hasCloseIcon="${this.hasCloseIcon}"
+          ?open="${this.openC}"
+          @close-dialog="${this.closeDialogC}"
+          @ok-dialog="${this.okDialogC}"
+          heading="Dialog custom size"
+          class="custom-size"
+          .showCloseIcon="${this.showCloseIcon}"
+          .showLeftButton="${false}"
         >
-           <p>
-             A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
-             Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
-             Dialogs are purposefully interruptive, so they should be used sparingly.
-             A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
-             Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
-             Dialogs are purposefully interruptive, so they should be used sparingly.
-             A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
-             Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
-             Dialogs are purposefully interruptive, so they should be used sparingly.
-           </p>
-           <mv-button 
-             class="left-button"
-             slot="left-button"
-             @button-clicked="${this.closeDialogC}"
-             button-style="error"
-           >
-             Cancel
-           </mv-button>
-           <mv-button class="right-button" slot="right-button" @button-clicked="${this.closeDialogC}">Save</mv-button>
+          <p>
+           A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
+           Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
+           Dialogs are purposefully interruptive, so they should be used sparingly.
+           A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
+           Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
+           Dialogs are purposefully interruptive, so they should be used sparingly.
+           A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
+           Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
+           Dialogs are purposefully interruptive, so they should be used sparingly.
+          </p>
         </mv-dialog>
       </div>`;
   }
@@ -137,6 +159,10 @@ export class MvDialogDemo extends LitElement {
     this.openA = false;
   }
 
+  okDialogA() {
+    this.openA = false;
+  }
+
   openDialogB() {
     this.openB = true;
   }
@@ -145,11 +171,19 @@ export class MvDialogDemo extends LitElement {
     this.openB = false;
   }
 
+  okDialogB() {
+    this.openB = false;
+  }
+
   openDialogC() {
     this.openC = true;
   }
 
   closeDialogC() {
+    this.openC = false;
+  }
+
+  okDialogC() {
     this.openC = false;
   }
 }

@@ -29,13 +29,15 @@ export class MvDialog extends LitElement {
         --border-radius: var(--mv-dialog-border-radius, 5px);
         --color-close-icon: var(--mv-dialog-color-close-icon, #48C5B9);
         --text-color: var(--mv-dialog-color, #80828C);
+        --dialog-z-index: var(--mv-dialog-z-index, 99);
       }
-      
+
       .mv-container-dialog {
         opacity: 0;
         transition: visibility 0s, opacity 0.25s ease-in;
+        z-index: var(--dialog-z-index);
       }
-      
+
       .overlay-dialog {
         height: 100%;
         position: fixed;
@@ -47,7 +49,7 @@ export class MvDialog extends LitElement {
         opacity: 0.5;
         background-color: #000000;
       }
-      
+
       .dialog {
         background: var(--background-color);
         width: var(--width);
@@ -59,7 +61,7 @@ export class MvDialog extends LitElement {
         font-size: var(--mv-dialog-content-font-size);
         color: var(--text-color);
       }
-      
+
       .opened {
         align-items: center;
         display: flex;
@@ -73,11 +75,11 @@ export class MvDialog extends LitElement {
         opacity: 1;
         visibility: visible;
       }
-      
+
       .closed {
         visibility: hidden;
       }
-      
+
       mv-fa {
         font-size: var(--mv-dialog-close-icon-font-size);
         color: var(--color-close-icon);
@@ -87,18 +89,18 @@ export class MvDialog extends LitElement {
         transform: translateY(-50%);
         cursor: pointer;
       }
-      
+
       .header {
          width: var(--width);
          height: 70px;
-         box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2); 
+         box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
          border-radius: var(--border-radius) var(--border-radius) 0 0;
          position: relative;
          box-sizing: border-box;
          -moz-box-sizing: border-box;
          -webkit-box-sizing: border-box;
       }
-      
+
       .title {
         font-size: var(--mv-dialog-title-font-size);
         color: var(--text-color);
@@ -109,7 +111,7 @@ export class MvDialog extends LitElement {
         transform: translateY(-50%);
         cursor: default;
       }
-      
+
       .footer {
         width: var(--width);
         height: 80px;
@@ -125,7 +127,7 @@ export class MvDialog extends LitElement {
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
       }
-      
+
       .body {
         overflow-y: auto;
         width: var(--width);
@@ -136,7 +138,7 @@ export class MvDialog extends LitElement {
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
       }
-      
+
       .footer mv-button:first-child:last-child {
         margin: 0 auto;
       }
@@ -164,20 +166,20 @@ export class MvDialog extends LitElement {
               <slot name="header">
                 ${this.showCloseIcon
                   ? html`<mv-fa icon="times" @click="${this.handleClose}"></mv-fa>`
-                  : html``}  
+                  : html``}
                 <span class="title">${this.heading}</span>
               </slot>
           </div>
-          
+
           <div class="body">
               <slot></slot>
           </div>
-          
+
           <div class="footer">
              <slot name="footer">
                ${this.showLeftButton
                 ? html`<mv-button class="left-button" @button-clicked="${this.handleClose}">${this.leftButton}</mv-button>`
-                : html``}  
+                : html``}
                ${this.showRightButton
                 ? html`<mv-button class="right-button" @button-clicked="${this.handleOK}" button-style="info">${this.rightButton}</mv-button>`
                 : html``}

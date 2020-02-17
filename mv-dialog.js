@@ -1,34 +1,42 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from "lit-element";
 import "mv-button";
 import "mv-font-awesome";
 
 export class MvDialog extends LitElement {
   static get properties() {
     return {
-      open: { type: Boolean },
-      leftButton: { type: String },
-      rightButton: { type: String },
-      heading: { type: String },
-      showCloseIcon: { type: Boolean },
-      showLeftButton: { type: Boolean },
-      showRightButton: { type: Boolean }
+      open: { type: Boolean, reflect: true },
+      closeable: { type: Boolean, reflect: true },
+      leftLabel: { type: String, attribute: "left-label", reflect: true },
+      rightLabel: { type: String, attribute: "right-label", reflect: true },
+      headerLabel: { type: String, attribute: "header-label", reflect: true },
+      noLeftButton: {
+        type: Boolean,
+        attribute: "no-left-button",
+        reflect: true
+      },
+      noRightButton: {
+        type: Boolean,
+        attribute: "no-right-button",
+        reflect: true
+      }
     };
   }
 
   static get styles() {
     return css`
       :host {
-        --mv-dialog-font-family: var(--font-family, Arial);
+        --mv-dialog-font-family: var(--font-family, MuseoSans);
         --mv-dialog-title-font-size: var(--font-size-xl, 12pt);
         --mv-dialog-close-icon-font-size: var(--font-size-xl, 12pt);
         --mv-dialog-content-font-size: var(--font-size-m, 10pt);
         --max-height: var(--mv-dialog-max-height, 528px);
         --dialog-body-height: calc(var(--max-height) - 150px);
-        --background-color: var(--mv-dialog-background-color, #FFFFFF);
+        --background-color: var(--mv-dialog-background-color, #ffffff);
         --width: var(--mv-dialog-width, 756px);
         --border-radius: var(--mv-dialog-border-radius, 5px);
-        --color-close-icon: var(--mv-dialog-color-close-icon, #48C5B9);
-        --text-color: var(--mv-dialog-color, #80828C);
+        --color-close-icon: var(--mv-dialog-color-close-icon, #48c5b9);
+        --text-color: var(--mv-dialog-color, #80828c);
         --dialog-z-index: var(--mv-dialog-z-index, 99);
       }
 
@@ -91,14 +99,14 @@ export class MvDialog extends LitElement {
       }
 
       .header {
-         width: var(--width);
-         height: 70px;
-         box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
-         border-radius: var(--border-radius) var(--border-radius) 0 0;
-         position: relative;
-         box-sizing: border-box;
-         -moz-box-sizing: border-box;
-         -webkit-box-sizing: border-box;
+        width: var(--width);
+        height: 70px;
+        box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        position: relative;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
       }
 
       .title {
@@ -142,63 +150,81 @@ export class MvDialog extends LitElement {
       .footer mv-button:first-child:last-child {
         margin: 0 auto;
       }
-   `;
+    `;
   }
 
   constructor() {
     super();
     this.open = false;
-    this.leftButton = "Cancel";
-    this.rightButton = "OK";
-    this.heading = "Dialog";
-    this.showCloseIcon = true;
-    this.showLeftButton = true;
-    this.showRightButton = true;
+    this.leftLabel = "Cancel";
+    this.rightLabel = "OK";
+    this.headerLabel = "Dialog";
+    this.closeable = false;
+    this.noLeftButton = false;
+    this.noRightButton = false;
   }
 
   render() {
-    const dialogClass = this.open ? 'opened' : 'closed';
+    const dialogClass = this.open ? "opened" : "closed";
     return html`
       <div class="mv-container-dialog ${dialogClass}">
         <div class="overlay-dialog" @click="${this.handleClose}"></div>
-        <div class="dialog" role="dialog" aria-labelledby="title" aria-describedby="content">
+        <div class="dialog" role="dialog">
           <div class="header">
-              <slot name="header">
-                ${this.showCloseIcon
-                  ? html`<mv-fa icon="times" @click="${this.handleClose}"></mv-fa>`
-                  : html``}
-                <span class="title">${this.heading}</span>
-              </slot>
+            <slot name="header">
+              ${this.closeable
+                ? html`
+                    <mv-fa icon="times" @click="${this.handleClose}"></mv-fa>
+                  `
+                : html``}
+              <span class="title">${this.headerLabel}</span>
+            </slot>
           </div>
 
           <div class="body">
-              <slot></slot>
+            <slot></slot>
           </div>
 
           <div class="footer">
-             <slot name="footer">
-               ${this.showLeftButton
-                ? html`<mv-button class="left-button" @button-clicked="${this.handleClose}">${this.leftButton}</mv-button>`
+            <slot name="footer">
+              ${!this.noLeftButton
+                ? html`
+                    <mv-button
+                      class="left-button"
+                      type="outline"
+                      button-style="cancel"
+                      @button-clicked="${this.handleClose}"
+                    >
+                      ${this.leftLabel}
+                    </mv-button>
+                  `
                 : html``}
-               ${this.showRightButton
-                ? html`<mv-button class="right-button" @button-clicked="${this.handleOK}" button-style="info">${this.rightButton}</mv-button>`
+              ${!this.noRightButton
+                ? html`
+                    <mv-button                    
+                      class="right-button"
+                      @button-clicked="${this.handleOK}"
+                    >
+                      ${this.rightLabel}
+                    </mv-button>
+                  `
                 : html``}
-             </slot>
+            </slot>
           </div>
         </div>
       </div>
-   `;
+    `;
   }
 
   handleClose(event) {
     event && event.stopImmediatePropagation();
-    this.dispatchEvent(new CustomEvent('close-dialog'));
+    this.dispatchEvent(new CustomEvent("close-dialog"));
   }
 
   handleOK(event) {
     event && event.stopImmediatePropagation();
-    this.dispatchEvent(new CustomEvent('ok-dialog'));
+    this.dispatchEvent(new CustomEvent("ok-dialog"));
   }
 }
 
-customElements.define('mv-dialog', MvDialog);
+customElements.define("mv-dialog", MvDialog);

@@ -8,10 +8,7 @@ export class MvDialogDemo extends LitElement {
     return {
       openA: { type: Boolean },
       openB: { type: Boolean },
-      openC: { type: Boolean },
-      hasLeftButton: { type: String },
-      hasRightButton: { type: String },
-      hasCloseIcon: { type: Boolean }
+      openC: { type: Boolean }      
     };
   }
 
@@ -77,8 +74,6 @@ export class MvDialogDemo extends LitElement {
 
   constructor() {
     super();
-    this.leftButton = "Cancel";
-    this.rightButton = "Save";
     this.openA = false;
     this.openB = false;
     this.openC = false;
@@ -95,9 +90,7 @@ export class MvDialogDemo extends LitElement {
            ?open="${this.openA}"
            @close-dialog="${this.closeDialogA}"
            @ok-dialog="${this.okDialogA}"
-           leftButton="${this.leftButton}"
-           rightButton="${this.rightButton}"
-           heading="Dialog"
+           closeable
         >
            <p>
              A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -110,7 +103,7 @@ export class MvDialogDemo extends LitElement {
            ?open="${this.openB}"
            @close-dialog="${this.closeDialogB}"
            @ok-dialog="${this.okDialogB}"
-           heading="Dialog custom button"
+           header-label="Dialog custom button"
         >
           <p>
             A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -118,11 +111,11 @@ export class MvDialogDemo extends LitElement {
             Dialogs are purposefully interruptive, so they should be used sparingly.
           </p>
           <span slot="header">
-            <mv-fa icon="times" @click="${this.closeDialogB}"></mv-fa>
+            <mv-fa icon="times-circle" @click="${this.closeDialogB}"></mv-fa>
             <span class="title">Dialog custom button</span>
           </span>
           <span slot="footer">
-            <mv-button class="left-button" @button-clicked="${this.closeDialogB}">Cancel</mv-button>
+            <mv-button class="left-button" @button-clicked="${this.closeDialogB}" button-style="error">Cancel</mv-button>
             <mv-button class="right-button" @button-clicked="${this.okDialogB}" button-style="info">Save</mv-button>
           </span>
         </mv-dialog>
@@ -131,10 +124,9 @@ export class MvDialogDemo extends LitElement {
           ?open="${this.openC}"
           @close-dialog="${this.closeDialogC}"
           @ok-dialog="${this.okDialogC}"
-          heading="Dialog custom size"
+          header-label="Dialog custom size"
           class="custom-size"
-          .showCloseIcon="${this.showCloseIcon}"
-          .showLeftButton="${false}"
+          no-left-button
         >
           <p>
            A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.

@@ -8,7 +8,9 @@ export class MvDialogDemo extends LitElement {
     return {
       openA: { type: Boolean },
       openB: { type: Boolean },
-      openC: { type: Boolean }      
+      openC: { type: Boolean },
+      open: { type: Boolean, attribute: true },
+      theme: { type: String, attribute: true }
     };
   }
 
@@ -30,7 +32,7 @@ export class MvDialogDemo extends LitElement {
         text-align: initial;
       }
       
-      mv-fa {
+      mv-fa[icon="times-circle"] {
         font-size: 20px;
         color: #48C5B9;
         position: absolute;
@@ -69,6 +71,18 @@ export class MvDialogDemo extends LitElement {
         --mv-dialog-width: 500px;
         --mv-dialog-max-height: 300px;
       }
+      
+      mv-fa[icon="lightbulb"] {
+        font-size: 50px;
+        cursor: pointer;
+        margin: 20px;
+        z-index: 100;
+      }
+      
+      .theme {
+        display: flex;
+        justify-content: flex-start;
+      }
    `;
   }
 
@@ -77,20 +91,27 @@ export class MvDialogDemo extends LitElement {
     this.openA = false;
     this.openB = false;
     this.openC = false;
-    this.showCloseIcon = false;
+    this.theme = "light";
+    this.open = true;
   }
 
   render() {
+    const iconColor = `color: ${this.open ? "yellow" : ""}`;
+    const textColor = `color: ${this.open ? "" : "#ffffff"}`;
     return html`
+      <div class="theme">
+        <mv-fa icon="lightbulb" style="${iconColor}" @click=${this.toggleLightBulb}></mv-fa>
+      </div>
       <div class="container">
-        <mv-button @button-clicked="${this.openDialogA}" button-style="info">Dialog</mv-button>
-        <mv-button @button-clicked="${this.openDialogB}">Custom button</mv-button>
-        <mv-button @button-clicked="${this.openDialogC}" button-style="error">Custom size</mv-button>
+        <mv-button @button-clicked="${this.openDialogA}" button-style="info" .theme="${this.theme}">Dialog</mv-button>
+        <mv-button @button-clicked="${this.openDialogB}" .theme="${this.theme}">Custom button</mv-button>
+        <mv-button @button-clicked="${this.openDialogC}" button-style="error" .theme="${this.theme}">Custom size</mv-button>
         <mv-dialog
            ?open="${this.openA}"
            @close-dialog="${this.closeDialogA}"
            @ok-dialog="${this.okDialogA}"
            closeable
+           .theme="${this.theme}"
         >
            <p>
              A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -104,6 +125,7 @@ export class MvDialogDemo extends LitElement {
            @close-dialog="${this.closeDialogB}"
            @ok-dialog="${this.okDialogB}"
            header-label="Dialog custom button"
+           .theme="${this.theme}"
         >
           <p>
             A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -112,7 +134,7 @@ export class MvDialogDemo extends LitElement {
           </p>
           <span slot="header">
             <mv-fa icon="times-circle" @click="${this.closeDialogB}"></mv-fa>
-            <span class="title">Dialog custom button</span>
+            <span class="title" style="${textColor}">Dialog custom button</span>
           </span>
           <span slot="footer">
             <mv-button class="left-button" @button-clicked="${this.closeDialogB}" button-style="error">Cancel</mv-button>
@@ -127,6 +149,7 @@ export class MvDialogDemo extends LitElement {
           header-label="Dialog custom size"
           class="custom-size"
           no-left-button
+          .theme="${this.theme}"
         >
           <p>
            A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -178,6 +201,15 @@ export class MvDialogDemo extends LitElement {
   okDialogC() {
     this.openC = false;
   }
+
+  toggleLightBulb = () => {
+    this.open = !this.open;
+    if (this.open) {
+      this.theme = "light";
+    } else {
+      this.theme = "dark";
+    }
+  };
 }
 
 customElements.define('mv-dialog-demo', MvDialogDemo);

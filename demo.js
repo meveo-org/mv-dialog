@@ -9,7 +9,6 @@ export class MvDialogDemo extends LitElement {
       openA: { type: Boolean },
       openB: { type: Boolean },
       openC: { type: Boolean },
-      open: { type: Boolean, attribute: true },
       theme: { type: String, attribute: true }
     };
   }
@@ -72,16 +71,23 @@ export class MvDialogDemo extends LitElement {
         --mv-dialog-max-height: 300px;
       }
       
-      mv-fa[icon="lightbulb"] {
-        font-size: 50px;
+      fieldset > label, label > input {
         cursor: pointer;
-        margin: 20px;
-        z-index: 100;
       }
       
-      .theme {
-        display: flex;
-        justify-content: flex-start;
+      fieldset {
+        width: 120px;
+        margin-left: 10px;
+        border:2px solid red;
+        -moz-border-radius:8px;
+        -webkit-border-radius:8px;	
+        border-radius:8px;
+        color: #818181;
+      }
+      
+      legend {
+        font-weight: 500;
+        color: red;
       }
    `;
   }
@@ -92,16 +98,17 @@ export class MvDialogDemo extends LitElement {
     this.openB = false;
     this.openC = false;
     this.theme = "light";
-    this.open = true;
   }
 
   render() {
-    const iconColor = `color: ${this.open ? "yellow" : ""}`;
-    const textColor = `color: ${this.open ? "" : "#ffffff"}`;
+    const isLightTheme = this.theme === "light";
+    const textColor = `color: ${isLightTheme ? "" : "#ffffff"}`;
     return html`
-      <div class="theme">
-        <mv-fa icon="lightbulb" style="${iconColor}" @click=${this.toggleLightBulb}></mv-fa>
-      </div>
+      <fieldset>
+        <legend>Theme</legend>
+        <label><input type="radio" name="theme" value="light" checked @change="${this.radioChange}" />Light</label>
+        <label><input type="radio" name="theme" value="dark" @change="${this.radioChange}" />Dark</label>
+      </fieldset>
       <div class="container">
         <mv-button @button-clicked="${this.openDialogA}" button-style="info" .theme="${this.theme}">Dialog</mv-button>
         <mv-button @button-clicked="${this.openDialogB}" .theme="${this.theme}">Custom button</mv-button>
@@ -202,9 +209,9 @@ export class MvDialogDemo extends LitElement {
     this.openC = false;
   }
 
-  toggleLightBulb = () => {
-    this.open = !this.open;
-    if (this.open) {
+  radioChange = originalEvent => {
+    const { target: { value } } = originalEvent;
+    if (value === "light") {
       this.theme = "light";
     } else {
       this.theme = "dark";

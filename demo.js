@@ -43,7 +43,6 @@ export class MvDialogDemo extends LitElement {
       
       .title {
         font-size: 20px;
-        color: #80828C;
         font-weight: 500;
         position: absolute;
         left: 30px;
@@ -101,24 +100,23 @@ export class MvDialogDemo extends LitElement {
   }
 
   render() {
-    const isLightTheme = this.theme === "light";
-    const textColor = `color: ${isLightTheme ? "" : "#ffffff"}`;
+    const { theme } = this;
     return html`
       <fieldset>
         <legend>Theme</legend>
-        <label><input type="radio" name="theme" value="light" checked @change="${this.radioChange}" />Light</label>
-        <label><input type="radio" name="theme" value="dark" @change="${this.radioChange}" />Dark</label>
+        <label><input type="radio" name="theme" value="light" checked @change="${this.changeTheme}" />Light</label>
+        <label><input type="radio" name="theme" value="dark" @change="${this.changeTheme}" />Dark</label>
       </fieldset>
       <div class="container">
-        <mv-button @button-clicked="${this.openDialogA}" button-style="info" .theme="${this.theme}">Dialog</mv-button>
-        <mv-button @button-clicked="${this.openDialogB}" .theme="${this.theme}">Custom button</mv-button>
-        <mv-button @button-clicked="${this.openDialogC}" button-style="error" .theme="${this.theme}">Custom size</mv-button>
+        <mv-button @button-clicked="${this.openDialogA}" button-style="info" .theme="${theme}">Dialog</mv-button>
+        <mv-button @button-clicked="${this.openDialogB}" .theme="${theme}">Custom button</mv-button>
+        <mv-button @button-clicked="${this.openDialogC}" button-style="error" .theme="${theme}">Custom size</mv-button>
         <mv-dialog
            ?open="${this.openA}"
            @close-dialog="${this.closeDialogA}"
            @ok-dialog="${this.okDialogA}"
            closeable
-           .theme="${this.theme}"
+           .theme="${theme}"
         >
            <p>
              A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -132,7 +130,7 @@ export class MvDialogDemo extends LitElement {
            @close-dialog="${this.closeDialogB}"
            @ok-dialog="${this.okDialogB}"
            header-label="Dialog custom button"
-           .theme="${this.theme}"
+           .theme="${theme}"
         >
           <p>
             A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -141,7 +139,7 @@ export class MvDialogDemo extends LitElement {
           </p>
           <span slot="header">
             <mv-fa icon="times-circle" @click="${this.closeDialogB}"></mv-fa>
-            <span class="title" style="${textColor}">Dialog custom button</span>
+            <span class="title">Dialog custom button</span>
           </span>
           <span slot="footer">
             <mv-button class="left-button" @button-clicked="${this.closeDialogB}" button-style="error">Cancel</mv-button>
@@ -156,7 +154,7 @@ export class MvDialogDemo extends LitElement {
           header-label="Dialog custom size"
           class="custom-size"
           no-left-button
-          .theme="${this.theme}"
+          .theme="${theme}"
         >
           <p>
            A Dialog is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
@@ -209,13 +207,9 @@ export class MvDialogDemo extends LitElement {
     this.openC = false;
   }
 
-  radioChange = originalEvent => {
+  changeTheme = originalEvent => {
     const { target: { value } } = originalEvent;
-    if (value === "light") {
-      this.theme = "light";
-    } else {
-      this.theme = "dark";
-    }
+    this.theme = value;
   };
 }
 

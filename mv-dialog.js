@@ -105,7 +105,7 @@ export class MvDialog extends LitElement {
       }
 
       .header {
-        width: var(--width);
+        width: 100%;
         height: 70px;
         box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
         border-radius: var(--border-radius) var(--border-radius) 0 0;
@@ -127,7 +127,7 @@ export class MvDialog extends LitElement {
       }
 
       .footer {
-        width: var(--width);
+        width: 100%;
         height: 80px;
         box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
         border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -242,6 +242,6 @@ export class MvDialog extends LitElement {
     event && event.stopImmediatePropagation();
     this.dispatchEvent(new CustomEvent("ok-dialog"));
   }
-}
+} 
 
 customElements.define("mv-dialog", MvDialog);

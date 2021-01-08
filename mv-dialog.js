@@ -13,17 +13,17 @@ export class MvDialog extends LitElement {
       noLeftButton: {
         type: Boolean,
         attribute: "no-left-button",
-        reflect: true
+        reflect: true,
       },
       noRightButton: {
         type: Boolean,
         attribute: "no-right-button",
-        reflect: true
+        reflect: true,
       },
 
       //  valid theme values are: "light", "dark"
       //    default: "light"
-      theme: { type: String, attribute: true }
+      theme: { type: String, attribute: true },
     };
   }
 
@@ -35,8 +35,9 @@ export class MvDialog extends LitElement {
         --mv-dialog-close-icon-font-size: var(--font-size-xl, 12pt);
         --mv-dialog-content-font-size: var(--font-size-m, 10pt);
         --max-height: var(--mv-dialog-max-height, 528px);
-        --dialog-body-height: calc(var(--max-height) - 150px);
         --width: var(--mv-dialog-width, 756px);
+        --dialog-body-height: var(--mv-dialog-content-height, calc(var(--max-height) - 150px));
+        --dialog-body-width: var(--mv-dialog-content-width, 100%);
         --border-radius: var(--mv-dialog-border-radius, 5px);
         --color-close-icon: var(--mv-dialog-color-close-icon, #48c5b9);
         --dialog-z-index: var(--mv-dialog-z-index, 99);
@@ -144,8 +145,8 @@ export class MvDialog extends LitElement {
 
       .body {
         overflow-y: auto;
-        width: var(--width);
-        height: var(--dialog-body-height);
+        width: var(--dialog-body-width);
+        height: var(--dialog-body-height, auto);
         position: relative;
         padding: 0 30px 0 30px;
         box-sizing: border-box;
@@ -156,12 +157,12 @@ export class MvDialog extends LitElement {
       .footer mv-button:first-child:last-child {
         margin: 0 auto;
       }
-      
+
       .light {
         --background-color: var(--light-background);
         --text-color: var(--light-color);
       }
-      
+
       .dark {
         --background-color: var(--dark-background);
         --text-color: var(--dark-color);
@@ -218,7 +219,7 @@ export class MvDialog extends LitElement {
                 : html``}
               ${!this.noRightButton
                 ? html`
-                    <mv-button                    
+                    <mv-button
                       class="right-button"
                       @button-clicked="${this.handleOK}"
                     >
@@ -242,6 +243,6 @@ export class MvDialog extends LitElement {
     event && event.stopImmediatePropagation();
     this.dispatchEvent(new CustomEvent("ok-dialog"));
   }
-} 
+}
 
 customElements.define("mv-dialog", MvDialog);

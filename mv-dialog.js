@@ -10,6 +10,7 @@ export class MvDialog extends LitElement {
       leftLabel: { type: String, attribute: "left-label", reflect: true },
       rightLabel: { type: String, attribute: "right-label", reflect: true },
       headerLabel: { type: String, attribute: "header-label", reflect: true },
+      noFooter: { type: Boolean, attribute: "no-footer", reflect: true },
       noLeftButton: {
         type: Boolean,
         attribute: "no-left-button",
@@ -36,7 +37,10 @@ export class MvDialog extends LitElement {
         --mv-dialog-content-font-size: var(--font-size-m, 10pt);
         --max-height: var(--mv-dialog-max-height, 528px);
         --width: var(--mv-dialog-width, 756px);
-        --dialog-body-height: var(--mv-dialog-content-height, calc(var(--max-height) - 150px));
+        --dialog-body-height: var(
+          --mv-dialog-content-height,
+          calc(var(--max-height) - 150px)
+        );
         --dialog-body-width: var(--mv-dialog-content-width, 100%);
         --border-radius: var(--mv-dialog-border-radius, 5px);
         --color-close-icon: var(--mv-dialog-color-close-icon, #48c5b9);
@@ -202,33 +206,36 @@ export class MvDialog extends LitElement {
           <div class="body">
             <slot></slot>
           </div>
-
-          <div class="footer">
-            <slot name="footer">
-              ${!this.noLeftButton
-                ? html`
-                    <mv-button
-                      class="left-button"
-                      type="outline"
-                      button-style="cancel"
-                      @button-clicked="${this.handleClose}"
-                    >
-                      ${this.leftLabel}
-                    </mv-button>
-                  `
-                : html``}
-              ${!this.noRightButton
-                ? html`
-                    <mv-button
-                      class="right-button"
-                      @button-clicked="${this.handleOK}"
-                    >
-                      ${this.rightLabel}
-                    </mv-button>
-                  `
-                : html``}
-            </slot>
-          </div>
+          ${!this.noFooter
+            ? html`
+                <div class="footer">
+                  <slot name="footer">
+                    ${!this.noLeftButton
+                      ? html`
+                          <mv-button
+                            class="left-button"
+                            type="outline"
+                            button-style="cancel"
+                            @button-clicked="${this.handleClose}"
+                          >
+                            ${this.leftLabel}
+                          </mv-button>
+                        `
+                      : html``}
+                    ${!this.noRightButton
+                      ? html`
+                          <mv-button
+                            class="right-button"
+                            @button-clicked="${this.handleOK}"
+                          >
+                            ${this.rightLabel}
+                          </mv-button>
+                        `
+                      : html``}
+                  </slot>
+                </div>
+              `
+            : html``}
         </div>
       </div>
     `;

@@ -148,7 +148,7 @@ export class MvDialog extends LitElement {
       }
 
       .body {
-        overflow-y: auto;
+        overflow-y: inherit
         width: var(--dialog-body-width);
         height: var(--dialog-body-height, auto);
         position: relative;

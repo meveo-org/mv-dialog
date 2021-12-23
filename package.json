@@ -1,0 +1,22 @@
+{
+  "name": "@meveo-org/mv-dialog",
+  "version": "1.0.0",
+  "description": "MvDialog is a Meveo dialog component (based on lit-element) that provides popup dialogs.",
+  "main": "mv-dialog.js",
+  "scripts": {
+    "serve": "es-dev-server --node-resolve --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meveo-org/mv-dialog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meveo-org/mv-dialog/issues"
+  },
+  "homepage": "https://github.com/meveo-org/mv-dialog#readme",
+  "devDependencies": {
+    "es-dev-server": "^1.46.1"
+  }
+}

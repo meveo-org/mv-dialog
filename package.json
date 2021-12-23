@@ -16,6 +16,10 @@
     "url": "https://github.com/meveo-org/mv-dialog/issues"
   },
   "homepage": "https://github.com/meveo-org/mv-dialog#readme",
+  "dependencies": {
+    "@meveo-org/mv-button": "^1.0.0",
+    "@meveo-org/mv-font-awesome": "^1.0.0"
+  },
   "devDependencies": {
     "es-dev-server": "^1.46.1"
   }

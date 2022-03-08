@@ -1,7 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import './mv-dialog.js';
-import "mv-button";
-import "mv-font-awesome";
+import "@meveo-org/mv-button";
+import "@meveo-org/mv-font-awesome";
 
 export class MvDialogDemo extends LitElement {
   static get properties() {

@@ -42,6 +42,7 @@ export class MvDialog extends LitElement {
         --header-box-shadow: var(--mv-dialog-header-box-shadow, 0 5px 10px 0 rgba(7, 17, 26, 0.2));
         --fa-right-position: var(--mv-dialog-fa-right-position, 30px);
         --width: var(--mv-dialog-width, 756px);
+        --dialog-height: var(--mv-dialog-height, auto);
         --dialog-body-height: var(
           --mv-dialog-content-height,
           calc(var(--max-height) - 150px)
@@ -78,6 +79,7 @@ export class MvDialog extends LitElement {
       .dialog {
         background: var(--background-color);
         width: var(--width);
+        height: var(--dialog-height);
         max-height: var(--max-height);
         position: fixed;
         box-shadow: var(--dialog-box-shadow);

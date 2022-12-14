@@ -56,6 +56,11 @@ export class MvDialog extends LitElement {
         --dark-background: var(--mv-dialog-dark-background, #373e48);
         --light-color: var(--mv-dialog-color, #80828c);
         --dark-color: var(--mv-dialog-dark-color, #ffffff);
+        --title-font-weight: var(--mv-dialog-title-font-weight, 500);
+        --title-left-position: var(--mv-dialog-title-left-position, 30px);
+        --footer-border-top: var(--mv-dialog-footer-border-top, 1px solid rgba(0, 0, 0, 0.12));
+        --footer-padding: var(--mv-dialog-footer-padding, 0 30px 0 30px);
+        --dialog-body-padding: var(--mv-dialog-body-padding, 0 30px 0 30px);
       }
 
       .mv-container-dialog {
@@ -131,9 +136,9 @@ export class MvDialog extends LitElement {
       .title {
         font-size: var(--mv-dialog-title-font-size);
         color: var(--text-color);
-        font-weight: 500;
+        font-weight: var(--title-font-weight);
         position: absolute;
-        left: 30px;
+        left: var(--title-left-position);
         top: 50%;
         transform: translateY(-50%);
         cursor: default;
@@ -144,12 +149,12 @@ export class MvDialog extends LitElement {
         height: var(--footer-height);
         box-shadow: var(--footer-box-shadow);
         border-radius: 0 0 var(--border-radius) var(--border-radius);
-        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        border-top: var(--footer-border-top);
         position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 30px 0 30px;
+        padding: var(--footer-padding);
         box-sizing: border-box;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -160,7 +165,7 @@ export class MvDialog extends LitElement {
         width: var(--dialog-body-width);
         height: var(--dialog-body-height, auto);
         position: relative;
-        padding: 0 30px 0 30px;
+        padding: var(--dialog-body-padding);
         box-sizing: border-box;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;

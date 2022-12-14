@@ -37,7 +37,10 @@ export class MvDialog extends LitElement {
         --mv-dialog-content-font-size: var(--font-size-m, 10pt);
         --max-height: var(--mv-dialog-max-height, 528px);
         --header-height: var(--mv-dialog-header-height, 70px);
-        --header-box-shadow: var(--mv-dialog-header-box-shadow, 0 0 30px 0 rgba(0, 0, 0, 0.5))
+        --dialog-box-shadow: var(--mv-dialog-box-shadow, 0 0 30px 0 rgba(0, 0, 0, 0.5));
+        --footer-box-shadow: var(--mv-dialog-footer-box-shadow, 0 5px 10px 0 rgba(7, 17, 26, 0.2));
+        --header-box-shadow: var(--mv-dialog-header-box-shadow, 0 5px 10px 0 rgba(7, 17, 26, 0.2));
+        --fa-right-position: var(--mv-dialog-fa-right-position, 30px);
         --width: var(--mv-dialog-width, 756px);
         --dialog-body-height: var(
           --mv-dialog-content-height,
@@ -77,7 +80,7 @@ export class MvDialog extends LitElement {
         width: var(--width);
         max-height: var(--max-height);
         position: fixed;
-        box-shadow: var(--header-box-shadow);
+        box-shadow: var(--dialog-box-shadow);
         border-radius: var(--border-radius);
         font-family: var(--mv-dialog-font-family);
         font-size: var(--mv-dialog-content-font-size);
@@ -106,7 +109,7 @@ export class MvDialog extends LitElement {
         font-size: var(--mv-dialog-close-icon-font-size);
         color: var(--color-close-icon);
         position: absolute;
-        right: 30px;
+        right: var(--fa-right-position);
         top: 50%;
         transform: translateY(-50%);
         cursor: pointer;
@@ -115,7 +118,7 @@ export class MvDialog extends LitElement {
       .header {
         width: 100%;
         height: var(--header-height);
-        box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
+        box-shadow: var(--header-box-shadow);
         border-radius: var(--border-radius) var(--border-radius) 0 0;
         position: relative;
         box-sizing: border-box;
@@ -137,7 +140,7 @@ export class MvDialog extends LitElement {
       .footer {
         width: 100%;
         height: var(--footer-height);
-        box-shadow: 0 5px 10px 0 rgba(7, 17, 26, 0.2);
+        box-shadow: var(--footer-box-shadow);
         border-radius: 0 0 var(--border-radius) var(--border-radius);
         border-top: 1px solid rgba(0, 0, 0, 0.12);
         position: relative;

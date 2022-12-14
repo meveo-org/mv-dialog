@@ -1,6 +1,6 @@
 {
   "name": "@meveo-org/mv-dialog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MvDialog is a Meveo dialog component (based on lit-element) that provides popup dialogs.",
   "main": "mv-dialog.js",
   "scripts": {
